@@ -3,7 +3,7 @@
 This module estimates the air mixing/air change rate from AQI measurements. Data must be given
 in a CSV file, with three data columns: time, indoor, and outdoor air quality observations.  The
 timestep must be sufficiently small for the implied air change rate.  In addition, the estimator
-assume no filtering on the measurements.
+assumes no filtering on the measurements.
 
 # Example data
 
