@@ -12,9 +12,12 @@ implied air-changes per hour `ach`.  These values correspond to the continous mo
 
 and the discrete model
 
-`y[t] = y[t-1] ( 1 - t_s ach ) + 0.5 ( x[t-1]-x[t] ) t_s ach`
+`y[t] = y[t-1] ( 1 - ts ach ) + 0.5 ( x[t-1]-x[t] ) ts ach`
 
-where `t` is the time in hours, `x` is the outdoor AQI, and `y` is the indoor AQI.
+where `t` is the time in hours, `x` is the outdoor AQI, `y` is the indoor AQI, and `ts` in the timestep.
+
+Caveat: the timestep `ts` must be less than the `1/ach` for the estimator to work properly.  If this
+condition is not satisfied, a warning is issued.
 
 # Example data
 
