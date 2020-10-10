@@ -5,6 +5,17 @@ in a CSV file, with three data columns: time, indoor, and outdoor air quality ob
 timestep must be sufficiently small for the implied air change rate.  In addition, the estimator
 assumes no filtering on the measurements.
 
+The estimate computes three values, the initial value `c`, the time-constant rate `r`, and the
+implied air-changes per hour `ach`.  These values correspond to the continous model
+
+![equation](http://www.sciweavers.org/tex2img.php?im=jpg&fs=12&eq=y=c~\exp(rt))
+
+and the discrete model
+
+![equation](http://www.sciweavers.org/tex2img.php?im=jpg&fs=12&eq=y_t=y_{t-1}~(1-t_s~ach)+{1\over2}(x_{t-1}-x_{t})~t_s~ach)
+
+where `t` is the time in hours, `x` is the outdoor AQI, and `y` is the indoor AQI.
+
 # Example data
 
 File: `test1.csv`
