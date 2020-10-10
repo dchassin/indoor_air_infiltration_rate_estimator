@@ -135,11 +135,23 @@ class TestEstimate(unittest.TestCase):
 		self.assertEqual(A.c,133.00663028695413)
 		self.assertEqual(A.ach,1.4907421330551835)
 
-	def test1_noinit(self):
+	def test1_noinit_dict(self):
 		A = estimate("test1.csv").to_dict()
 		self.assertEqual(A['r'],-1.7933034171096698)
 		self.assertEqual(A['c'],133.00692175930675)
 		self.assertEqual(A['ach'],1.546985672682819)
+
+	def test2_init_dict(self):
+		A = estimate("test2.csv",constrain='init').to_dict()
+		self.assertEqual(A['r'],-2.1372690464991466)
+		self.assertEqual(A['c'],436.99984165099715)
+		self.assertEqual(A['ach'],1.7944972528267857)
+
+	def test2_noinit(self):
+		A = estimate("test2.csv")
+		self.assertEqual(A.r,-1.95153364918687)
+		self.assertEqual(A.c,436.9998554120214)
+		self.assertEqual(A.ach,1.662649742934835)
 
 if __name__ == '__main__':
 	unittest.main()
