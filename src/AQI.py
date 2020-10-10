@@ -28,7 +28,7 @@ class estimate:
 
 	Description:
 
-		This class contains the method for estimate the implied indoor air mixing rate from outdoor air.
+		This class contains the method for estimating the indoor air mixing rate from outdoor air infiltration.
 		Two methods are used depending on whether the first observation is considered the initial value.
 		If the initial value is known, then the air-change rate is estimated using a simple optimization
 		to minimize the error.  If the initial value is not known, then a simple linear regression is
