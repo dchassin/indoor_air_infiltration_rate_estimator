@@ -1,5 +1,6 @@
 import warnings
 import csv
+import math
 import numpy as np
 import scipy.stats as st
 import scipy.optimize as opt
@@ -89,17 +90,25 @@ class estimate:
 		elif constrain:
 			raise "invalid constraint"
 		else: # initial value is not constrained to observed value
-			dx = np.log(np.array(self.x)-np.array(self.y))
-			self.r,self.c,self.rvalue,self.pvalue,self.stderr = st.linregress(t,dx)
+			try:
+				dx = np.log(np.array(self.x)-np.array(self.y))
+				self.r,self.c,self.rvalue,self.pvalue,self.stderr = st.linregress(t,dx)
+			except:
+				self.r = np.nan
+				self.c = self.x[0]
 			def objective(ach):
 				z = predict(t,np.exp(self.c)+y[0],ach,ts,y) - x
 				return sum(z*z)
 		res = opt.minimize_scalar(objective,bounds=[0,10])
 		if res.success:
 			self.ach = res.x
-			dx = np.log(np.array(predict(t,x[0],self.ach,ts,y))-np.array(self.y))
-			self.r,self.c,self.rvalue,self.pvalue,self.stderr = st.linregress(t,dx)
-			self.c = np.exp(self.c)+np.mean(self.y)
+			try:
+				dx = np.log(np.array(predict(t,x[0],self.ach,ts,y))-np.array(self.y))
+				self.r,self.c,self.rvalue,self.pvalue,self.stderr = st.linregress(t,dx)
+				self.c = np.exp(self.c)+np.mean(self.y)
+			except:
+				warnings.warn("cannot estimate continuous time model directly from data")
+				pass				
 			if self.ach > 1/ts:
 				warnings.warn("estimated ACH is too high for timestep")
 			elif self.ach < 0:
@@ -152,6 +161,18 @@ class TestEstimate(unittest.TestCase):
 		self.assertEqual(A.r,-1.95153364918687)
 		self.assertEqual(A.c,436.9998554120214)
 		self.assertEqual(A.ach,1.662649742934835)
+
+	def test3_init_dict(self):
+		A = estimate("test3.csv",constrain='init')
+		self.assertTrue(math.isnan(A.r))
+		self.assertTrue(math.isnan(A.c))
+		self.assertEqual(A.ach,2.068286037082393)
+
+	def test3_noinit(self):
+		A = estimate("test3.csv")
+		self.assertTrue(math.isnan(A.r))
+		self.assertTrue(math.isnan(A.c))
+		self.assertTrue(math.isnan(A.ach))
 
 if __name__ == '__main__':
 	unittest.main()
