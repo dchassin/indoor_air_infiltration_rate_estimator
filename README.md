@@ -22,6 +22,7 @@ condition is not satisfied, a warning is issued.
 # Example data
 
 File: `test1.csv`
+
 ~~~
 time,outdoor,indoor
 0.000,40,133
