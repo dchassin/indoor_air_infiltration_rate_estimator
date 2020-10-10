@@ -1,4 +1,4 @@
-# Air change rate estimator
+# Indoor air infiltration rate estimator
 
 This module estimates the air mixing/air change rate from AQI measurements. Data must be given
 in a CSV file, with three data columns: time, indoor, and outdoor air quality observations.  The
